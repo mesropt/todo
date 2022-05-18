@@ -126,6 +126,7 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 
-CORS_ALLOWED_ORIGIN = [ # Ниже перечисляем доступные нам порты. На 3000 живёт React.
-    "http://localhost:3000/",
+# Cross-Origin Resource Sharing (CORS)
+CORS_ALLOWED_ORIGINS = [ # Ниже перечисляем доступные нам порты. На 3000 живёт React.
+    "http://localhost:3000",
 ]
