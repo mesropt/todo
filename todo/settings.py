@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # Other
     "rest_framework",
+    'django_extensions',
     # My
     "authors",
     "users",
