@@ -8,4 +8,4 @@ class User(models.Model):
     username = models.CharField(max_length=64)
     firstname = models.CharField(max_length=64)
     lastname = models.CharField(max_length=64)
-    email = models.EmailField(max_length=254)  # EmailField предполагает уникальность
+    email = models.EmailField(max_length=254, unique=True)
