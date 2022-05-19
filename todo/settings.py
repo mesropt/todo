@@ -39,21 +39,21 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # Other
     "rest_framework",
-    'django_extensions',
+    "django_extensions",
     # My
     "authors",
     "users",
-    'corsheaders',
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "django.contrib.sessions.middleware.SessionMiddleware", # Отвечает за сессии, токены берутся токены, сохраняются куки.
+    "django.contrib.sessions.middleware.SessionMiddleware",  # Отвечает за сессии, токены берутся токены, сохраняются куки.
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware", # Отвечает за csrf защиту.
-    "django.contrib.auth.middleware.AuthenticationMiddleware", # Отвечает за авторизацию. Например, обрезает доступ на сайт.
-    "django.contrib.messages.middleware.MessageMiddleware", # Выводит сообщение с ошибками при дебаге.
+    "django.middleware.csrf.CsrfViewMiddleware",  # Отвечает за csrf защиту.
+    "django.contrib.auth.middleware.AuthenticationMiddleware",  # Отвечает за авторизацию. Например, обрезает доступ на сайт.
+    "django.contrib.messages.middleware.MessageMiddleware",  # Выводит сообщение с ошибками при дебаге.
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
@@ -128,6 +128,6 @@ USE_TZ = True
 STATIC_URL = "/static/"
 
 # Cross-Origin Resource Sharing (CORS)
-CORS_ALLOWED_ORIGINS = [ # Ниже перечисляем доступные нам порты. На 3000 живёт React.
+CORS_ALLOWED_ORIGINS = [  # Ниже перечисляем доступные нам порты. На 3000 живёт React.
     "http://localhost:3000",
 ]
