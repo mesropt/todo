@@ -308,3 +308,6 @@ cython_debug/
 
 # MacOS
 .DS_Store
+
+# Other
+notes.txt
