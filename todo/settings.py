@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "authors",
     "users",
     "corsheaders",
+    "todos",
 ]
 
 MIDDLEWARE = [
@@ -57,7 +58,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "todo.urls"
+ROOT_URLCONF = "todo.urls" # Это главные диспетчер адресов. Здесь можно поменять название корневого диспетчера адресов. Кроме главного диспетчера адресов можно создавать и локальные.
 
 TEMPLATES = [
     {
@@ -131,3 +132,10 @@ STATIC_URL = "/static/"
 CORS_ALLOWED_ORIGINS = [  # Ниже перечисляем доступные нам порты. На 3000 живёт React.
     "http://localhost:3000",
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer', # Это глобальный рендер. Во всём проекте используется этот json рендер.
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ]
+}
