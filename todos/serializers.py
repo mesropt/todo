@@ -26,7 +26,7 @@ class ProjectModelSerializer(serializers.ModelSerializer):
 class ToDoModelSerializer(serializers.HyperlinkedModelSerializer):
     author = serializers.PrimaryKeyRelatedField(read_only=True)
     execution_status = serializers.BooleanField(read_only=True)
-    project_name = serializers.PrimaryKeyRelatedField(queryset=Project.objects.all())
+    project = serializers.PrimaryKeyRelatedField(queryset=Project.objects.all())
 
     class Meta:
         model = ToDo

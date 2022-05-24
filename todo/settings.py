@@ -134,8 +134,18 @@ CORS_ALLOWED_ORIGINS = [  # Ниже перечисляем доступные �
 ]
 
 REST_FRAMEWORK = {
-    "DEFAULT_RENDERER_CLASSES": [
-        "rest_framework.renderers.JSONRenderer",  # Это глобальный рендер. Во всём проекте используется этот json рендер.
-        "rest_framework.renderers.BrowsableAPIRenderer",
-    ]
+    'DEFAULT_RENDERER_CLASSES': [
+        'djangorestframework_camel_case.render.CamelCaseJSONRenderer',
+    ],
+
+    'DEFAULT_PARSER_CLASSES': (
+        'djangorestframework_camel_case.parser.CamelCaseFormParser',
+        'djangorestframework_camel_case.parser.CamelCaseMultiPartParser',
+        'djangorestframework_camel_case.parser.CamelCaseJSONParser',
+    ),
 }
+
+if DEBUG:
+    REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'] += [
+        'djangorestframework_camel_case.render.CamelCaseBrowsableAPIRenderer',
+    ]
