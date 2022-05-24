@@ -1,11 +1,14 @@
+from abc import ABC
+
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
+
 from .models import Project, ToDo
-from abc import ABC
+
 
 class UserListingField(serializers.RelatedField, ABC):
     def to_representation(self, value):
-        return f'{value.get_username()}'
+        return f"{value.get_username()}"
 
     def to_internal_value(self, data):
         obj = get_user_model().objects.get(username=data)
@@ -17,7 +20,8 @@ class ProjectModelSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Project
-        fields = '__all__'
+        fields = "__all__"
+
 
 class ToDoModelSerializer(serializers.HyperlinkedModelSerializer):
     author = serializers.PrimaryKeyRelatedField(read_only=True)
@@ -26,4 +30,4 @@ class ToDoModelSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = ToDo
-        fields = '__all__'
+        fields = "__all__"
