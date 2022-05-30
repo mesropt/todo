@@ -9,4 +9,3 @@ class User(models.Model):
     firstname = models.CharField(max_length=64)
     lastname = models.CharField(max_length=64)
     email = models.EmailField(max_length=254, unique=True)
-

@@ -4,7 +4,6 @@ from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
 from .models import Project, ToDo
-from ..users.serializers import UserModelSerializer
 
 class UserListingField(serializers.RelatedField, ABC):
     def to_representation(self, value):
@@ -14,6 +13,7 @@ class UserListingField(serializers.RelatedField, ABC):
         obj = get_user_model().objects.get(username=data)
         return obj
 
+
 class ProjectModelSerializer(serializers.ModelSerializer):
     users = UserListingField(many=True, queryset=get_user_model().objects.all())
 
@@ -21,15 +21,9 @@ class ProjectModelSerializer(serializers.ModelSerializer):
         model = Project
         fields = "__all__"
 
+
 # ------------------------------
-class ToDoViewingSerializer(serializers.HyperlinkedModelSerializer):
-    author = UserModelSerializer(read_only=True)
-
-    class Meta:
-        model = ToDo
-        fields = '__all__'
-
-class ToDoModelSerializer(serializers.HyperlinkedModelSerializer):
+class ToDoModelSerializer(serializers.ModelSerializer):
     author = serializers.PrimaryKeyRelatedField(read_only=True)
     execution_status = serializers.BooleanField(read_only=True)
     project = serializers.PrimaryKeyRelatedField(queryset=Project.objects.all())

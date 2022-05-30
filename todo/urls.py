@@ -9,7 +9,6 @@ from authors.views import ArticleModelViewSet, AuthorModelViewSet, BiographyMode
 from todos.views import ProjectModelViewSet, ToDoModelViewSet
 from users.views import UserCustomViewSet
 
-
 router = DefaultRouter()  # Создаёт точку входа
 router.register("authors", AuthorModelViewSet)  # Регистрируем авторов и ставим сюда конкретные вьюхи.
 router.register("users", UserCustomViewSet)
@@ -25,5 +24,7 @@ urlpatterns = [
     # ------------------------------
     path("api-auth/", include("rest_framework.urls")),
     # ------------------------------
-    path("", include(router.urls)),  # Мы создали объект класса router и он является основным адресом нашего сайта, при этом админка и авторизация не изменились.
+    path(
+        "", include(router.urls)
+    ),  # Мы создали объект класса router и он является основным адресом нашего сайта, при этом админка и авторизация не изменились.
 ]
