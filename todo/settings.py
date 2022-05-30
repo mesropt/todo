@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     # Other
     "rest_framework",
     "django_extensions",
+    "django_filters",
     # My
     "authors",
     "users",

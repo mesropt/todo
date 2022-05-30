@@ -4,16 +4,17 @@ from .models import Project, ToDo
 
 # Фильтрация по части названия проекта
 class ProjectFilter(filters.FilterSet):
-    proejct_name = filters.CharFilter(lookup_expr='contains') # Здесь указано как фильтровать.
+    project_name = filters.CharFilter(lookup_expr='contains') # Здесь указано как фильтровать.
 
-    class MetA:
+    class Meta:
         model = Project
         fields = ['project_name'] # Здесь указано какие поля фильтровать.
 
 # Фильтрация по проекту:
 class ToDoFilter(filters.FilterSet):
-    proejct_name = filters.CharFilter(lookup_expr='contains')
+    project_name = filters.CharFilter(field_name='project_name', lookup_expr='contains')
+    date = filters.DateFromToRangeFilter(field_name='date_created')
 
-    class MetA:
+    class Meta:
         model = ToDo
         fields = ['project_name']
