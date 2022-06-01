@@ -5,7 +5,6 @@ from rest_framework import serializers
 
 from .models import Project, ToDo
 
-
 class UserListingField(serializers.RelatedField, ABC):
     def to_representation(self, value):
         return f"{value.get_username()}"
@@ -23,7 +22,8 @@ class ProjectModelSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class ToDoModelSerializer(serializers.HyperlinkedModelSerializer):
+# ------------------------------
+class ToDoModelSerializer(serializers.ModelSerializer):
     author = serializers.PrimaryKeyRelatedField(read_only=True)
     execution_status = serializers.BooleanField(read_only=True)
     project = serializers.PrimaryKeyRelatedField(queryset=Project.objects.all())

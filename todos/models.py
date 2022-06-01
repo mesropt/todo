@@ -17,14 +17,15 @@ class Project(models.Model):  # ПРОЕКТ, ДЛЯ КОТОРОГО ЗАПИС
         get_user_model(), verbose_name="пользователи, работающие с проектом"
     )  # Много пользователей - много проектов.
 
+    def __str__(self):
+        return self.project_name
 
 class ToDo(models.Model):  # ЗАМЕТКА
     uid = models.UUIDField(primary_key=True, default=uuid4)
-    project_name = models.ManyToManyField(Project, verbose_name="проект, в котором сделана заметка")
+    project = models.ManyToManyField(Project, verbose_name="проект, в котором сделана заметка")
     note_text = models.TextField(max_length=64, verbose_name="текст заметки")
     date_created = models.DateTimeField(max_length=64, auto_now_add=True, verbose_name="дата создания")
     date_updated = models.DateTimeField(max_length=254, auto_now=True, verbose_name="дата обновления")
-    author = models.ForeignKey(
-        get_user_model(), on_delete=models.PROTECT, verbose_name="автор заметки"
-    )  # Одна заметка - один автор.
-    execution_status = models.BooleanField(verbose_name="статус активности заметки")
+    author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='todos',
+    )
+    execution_status = models.BooleanField(default=True, verbose_name="статус активности заметки")
