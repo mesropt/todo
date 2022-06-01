@@ -1,0 +1,36 @@
+import React from 'react'
+
+
+const UserItem = ({item}) => {
+    return (
+        <tr>
+            <td>{item.id}</td>
+            <td>{item.username}</td>
+            <td>{item.firstname}</td>
+            <td>{item.lastname}</td>
+            <td>{item.email}</td>
+        </tr>
+    )
+}
+
+const UserList = ({items}) => {
+    return (
+        <div className={"container"}>
+            <table className={"table table-bordered table-hover"}>
+                <thead className={"table-light"}>
+                <tr>
+                    <th scope={"col"}>Username</th>
+                    <th scope={"col"}>First name</th>
+                    <th scope={"col"}>Last name</th>
+                    <th scope={"col"}>Email</th>
+                </tr>
+                </thead>
+                <tbody>
+                {items.map((item, index) => <UserItem item={item} key={index}/>)}
+                </tbody>
+            </table>
+        </div>
+    )
+}
+// ----------------------------------------------------------------------------
+export default UserList;

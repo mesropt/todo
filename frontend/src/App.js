@@ -1,12 +1,17 @@
+import './App.css';
 import React from 'react';
-import UserList from './components/User.js';
-import ProjectList from './components/Project.js';
-import ToDoList from './components/ToDo.js';
-import {BrowserRouter, Route, Routes, Link} from "react-router-dom";
+import Header from "./components/Header";
+import {BrowserRouter as Router, Route, Routes, Navigate} from "react-router-dom";
+import ProjectList from "./components/Projects";
+import UserList from "./components/Users";
+import ToDoList from "./components/ToDos";
+import Footer from "./components/Footer";
+import {PageNotFound404} from "./components/Base";
+
 
 class App extends React.Component {
 
-  constructor(props) {
+    constructor(props) {
     super(props)
     const user1 = {id: 1, username: 'Грин', firstname: '1880', lastname: 'Грин', email: 'ddd@gmail.com'}
     const user2 = {id: 2, username: 'Грин', firstname: '1880', lastname: 'Грин', email: 'ddd@gmail.com'}
@@ -27,26 +32,19 @@ class App extends React.Component {
     render() {
         return (
             <div className="App">
-                <BrowserRouter>
-                  <nav>
-                    <ul>
-                      <li>
-                        <Link to="/">Users</Link>
-                      </li>
-                      <li>
-                        <Link to="/projects">Projects</Link>
-                      </li>
-                      <li>
-                        <Link to="/todos">ToDos</Link>
-                      </li>
-                    </ul>
-                  </nav>
+                <Router>
+                    <div className={"container d-flex justify-content-between"}>
+                        <Header/>
+                    </div>
                     <Routes>
                         <Route exact path="/" element={<ProjectList items={this.state.projects}/>}/>
                         <Route exact path="/users" element={<UserList items={this.state.users}/>}/>
                         <Route exact path="/todos" element={<ToDoList items={this.state.todos}/>}/>
+                        <Route path="/projects" element={<Navigate replace to="/"/>}/>
+                        <Route exact path="*" element={<PageNotFound404/>}/>
                     </Routes>
-                </BrowserRouter>
+                </Router>
+                <Footer/>
             </div>
         )
     }

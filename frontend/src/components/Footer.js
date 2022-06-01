@@ -1,11 +1,10 @@
-import React from 'react';
+import React from "react";
 
-const FooterItem = ({footer}) => {
+
+export default function Footer() {
     return (
-        <div>
-            {footer}
-        </div>
+            <footer className={"bg-secondary bg-gradient bg-opacity-50 flex-grow-1"}>
+                &copy; GeekBrains 2022
+            </footer>
     )
 }
-
-export default FooterItem;
