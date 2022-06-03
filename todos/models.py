@@ -11,10 +11,12 @@ from django.db import models
 
 class Project(models.Model):  # ПРОЕКТ, ДЛЯ КОТОРОГО ЗАПИСАНЫ ЗАМЕТКИ
     uid = models.UUIDField(primary_key=True, default=uuid4)
-    project_name = models.CharField(max_length=64, unique=True, verbose_name="Название проекта")
-    repository_link = models.URLField(max_length=200, blank=True, verbose_name="Ссылка на репозиторий")
+    project_name = models.CharField(max_length=64, unique=True,
+                                    verbose_name="название проекта")
+    repository_link = models.URLField(max_length=200, blank=True,
+                                      verbose_name="ссылка на репозиторий")
     users = models.ManyToManyField(
-        get_user_model(), verbose_name="пользователи, работающие с проектом"
+        get_user_model(), verbose_name="участники проекта"
     )  # Много пользователей - много проектов.
 
     def __str__(self):
@@ -22,10 +24,20 @@ class Project(models.Model):  # ПРОЕКТ, ДЛЯ КОТОРОГО ЗАПИС
 
 class ToDo(models.Model):  # ЗАМЕТКА
     uid = models.UUIDField(primary_key=True, default=uuid4)
-    project = models.ManyToManyField(Project, verbose_name="проект, в котором сделана заметка")
-    note_text = models.TextField(max_length=64, verbose_name="текст заметки")
-    date_created = models.DateTimeField(max_length=64, auto_now_add=True, verbose_name="дата создания")
-    date_updated = models.DateTimeField(max_length=254, auto_now=True, verbose_name="дата обновления")
-    author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='todos',
+    project = models.ForeignKey(Project, on_delete=models.CASCADE,
+                                verbose_name='проект')
+    note_text = models.TextField(blank=True, verbose_name='текст заметки')
+    date_created = models.DateTimeField(auto_now_add=True,
+                                        verbose_name='дата создания')
+    date_updated = models.DateTimeField(auto_now=True, verbose_name='дата '
+                                                                    'обновления')
+    author = models.ForeignKey(
+        get_user_model(),
+        on_delete=models.CASCADE,
+        related_name='todos',
+        null=True,
+        verbose_name='автор'
     )
-    execution_status = models.BooleanField(default=True, verbose_name="статус активности заметки")
+    execution_status = models.BooleanField(default=True,
+                                           verbose_name='статус исполнения',
+                                           db_index=True)

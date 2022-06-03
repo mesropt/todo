@@ -4,7 +4,6 @@ import React from 'react'
 const UserItem = ({item}) => {
     return (
         <tr>
-            <td>{item.id}</td>
             <td>{item.username}</td>
             <td>{item.firstname}</td>
             <td>{item.lastname}</td>

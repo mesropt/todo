@@ -1,8 +1,9 @@
 import './App.css';
 import React from 'react';
+import axios from 'axios';
 import Header from "./components/Header";
 import {BrowserRouter as Router, Route, Routes, Navigate} from "react-router-dom";
-import ProjectList from "./components/Projects";
+import ProjectList  from "./components/Projects";
 import UserList from "./components/Users";
 import ToDoList from "./components/ToDos";
 import Footer from "./components/Footer";
@@ -10,23 +11,46 @@ import {PageNotFound404} from "./components/Base";
 
 
 class App extends React.Component {
-
     constructor(props) {
-    super(props)
-    const user1 = {id: 1, username: 'Грин', firstname: '1880', lastname: 'Грин', email: 'ddd@gmail.com'}
-    const user2 = {id: 2, username: 'Грин', firstname: '1880', lastname: 'Грин', email: 'ddd@gmail.com'}
-    const users = [user1, user2]
-    const project1 = {id: 1, project_name: 'Алые паруса', repository_link: 'dd'}
-    const project2 = {id: 2, project_name: 'Алые паруса', repository_link: 'dd'}
-    const projects = [project1, project2]
-    const todo1 = {id: 1, project: 'Алые паруса', note_text: 'author1', date_created: 1890, date_updated: 1900, execution_status: 'dd'}
-    const todo2 = {id: 1, project: 'Алые паруса', note_text: 'author1', date_created: 1890, date_updated: 1900, execution_status: 'dd'}
-    const todos = [todo1, todo2]
-    this.state = {
-      'users': users,
-      'projects': projects,
-      'todos': todos
+        super(props);
+        this.state = {
+            'projects': [],
+            'todos': [],
+            'users': []
+        }
     }
+
+
+  componentDidMount() {
+    axios.get('http://127.0.0.1:8000/users')
+      .then(response => {
+        const users = response.data
+          this.setState(
+          {
+            'users': users.results
+          }
+        )
+      }).catch(error => console.log(error))
+
+    axios.get('http://127.0.0.1:8000/projects')
+    .then(response => {
+      const projects = response.data
+        this.setState(
+        {
+          'projects': projects.results
+        }
+      )
+    }).catch(error => console.log(error))
+
+    axios.get('http://127.0.0.1:8000/todos')
+    .then(response => {
+      const todos = response.data
+        this.setState(
+        {
+          'todos': todos.results
+        }
+      )
+    }).catch(error => console.log(error))
   }
 
     render() {

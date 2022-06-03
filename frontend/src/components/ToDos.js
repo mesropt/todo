@@ -1,28 +1,26 @@
 import React from 'react'
 
 
-const TodoItem = ({item}) => {
+const ToDoItem = ({item}) => {
     return (
         <tr>
-            <td>{item.id}</td>
             <td>{item.project}</td>
-            <td>{item.note_text}</td>
-            <td>{item.date_created}</td>
-            <td>{item.date_updated}</td>
+            <td>{item.noteText}</td>
+            <td>{item.dateCreated}</td>
+            <td>{item.dateUpdated}</td>
             <td>{item.author}</td>
-            <td>{item.execution_status}</td>
+            <td>{item.executionStatus}</td>
         </tr>
     )
 }
 
 
-const TodoList = ({items}) => {
+const ToDoList = ({items}) => {
     return (
         <div className={"container"}>
             <table className={"table table-bordered table-hover"}>
                 <thead className={"table-light"}>
                 <tr>
-                    <th scope={"col"}>ID</th>
                     <th scope={"col"}>Project</th>
                     <th scope={"col"}>Note text</th>
                     <th scope={"col"}>Date created</th>
@@ -32,11 +30,11 @@ const TodoList = ({items}) => {
                 </tr>
                 </thead>
                 <tbody>
-                {items.map((item, index) => <TodoItem item={item} key={index}/>)}
+                {items.map((item, index) => <ToDoItem item={item} key={index}/>)}
                 </tbody>
             </table>
         </div>
     )
 }
 
-export default TodoList;
+export default ToDoList;

@@ -6,7 +6,7 @@ function PageNotFound404() {
     const url = useLocation();
     return (
         <div>
-            <h3>Страница по адресу {`<${url.pathname}>`} не найдена</h3>
+            <h3>Страница по адресу {`<${url.pathname}>`} не найдена :(</h3>
         </div>
     )
 }
