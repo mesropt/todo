@@ -5,6 +5,7 @@ from rest_framework import serializers
 
 from .models import Project, ToDo
 
+
 class UserListingField(serializers.RelatedField, ABC):
     def to_representation(self, value):
         return f"{value.get_username()}"

@@ -1,41 +1,77 @@
+import './App.css';
 import React from 'react';
 import axios from 'axios';
-import logo from './logo.svg'; // Лого мы удалили, можно без этого импорта.
-import './App.css'; // Подгрузка стилей.
-import AuthorList from './components/Author.js';
-import UserList from './components/User.js';
-import FooterItem from './components/Footer.js';
-import MenuItem from './components/Menu.js';
+import Header from "./components/Header";
+import {BrowserRouter as Router, Route, Routes, Navigate} from "react-router-dom";
+import ProjectList  from "./components/Projects";
+import UserList from "./components/Users";
+import ToDoList from "./components/ToDos";
+import Footer from "./components/Footer";
+import {PageNotFound404} from "./components/Base";
 
-class App extends React.Component { // Создаём класс App, который наследуется от React.Component. Класс App в нашей One Way Data Flow является верхним и самым главным, имеет состояние. Все остальные компоненты будут простыми функциями в рамках нашей реализации.
-  constructor(props) { // В конструктор класс передаём объект props (constructor в JS как init в Python).
-    super(props) // Вызываем объект props.
-    this.state = { // Объявляем состояние (this в JS как self в Python). То есть глобальное состояние есть только у класс App. Оно объявлено через этот this.
-      'users': [] // В users мы будем хранить массив наших авторов, которые мы будем получать с бекенда.
+
+class App extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            'projects': [],
+            'todos': [],
+            'users': []
+        }
     }
-  }
+
 
   componentDidMount() {
-    axios.get('http://127.0.0.1:8000/api/users') // get-запрос к урлу, который нас интересует.
-      .then(response => { // Получаем response, через который забираем data (данные).
+    axios.get('http://127.0.0.1:8000/users')
+      .then(response => {
         const users = response.data
-          this.setState( // Изменяем state.
+          this.setState(
           {
-            'users': users
+            'users': users.results
           }
         )
-      }).catch(error => console.log(error)) // Используя catch ловим ошибки и выводим их в log.
+      }).catch(error => console.log(error))
+
+    axios.get('http://127.0.0.1:8000/projects')
+    .then(response => {
+      const projects = response.data
+        this.setState(
+        {
+          'projects': projects.results
+        }
+      )
+    }).catch(error => console.log(error))
+
+    axios.get('http://127.0.0.1:8000/todos')
+    .then(response => {
+      const todos = response.data
+        this.setState(
+        {
+          'todos': todos.results
+        }
+      )
+    }).catch(error => console.log(error))
   }
 
-  render () { // Данный метод отвечает за отрисовку нашего компонента (то есть так же, как в Django был такой же метод, который рендерил наши templates).
-    return ( // Нижу внутри div можно писать по факту что угодно. Здесь используются div, то есть это сама html, которая будет рендериться.
-        <div>
-          <MenuItem menu={'Menu'} />
-          <UserList users={this.state.users} />
-          <FooterItem footer={'Footer'} />
-        </div>
-    )
-  }
+    render() {
+        return (
+            <div className="App">
+                <Router>
+                    <div className={"container d-flex justify-content-between"}>
+                        <Header/>
+                    </div>
+                    <Routes>
+                        <Route exact path="/" element={<ProjectList items={this.state.projects}/>}/>
+                        <Route exact path="/users" element={<UserList items={this.state.users}/>}/>
+                        <Route exact path="/todos" element={<ToDoList items={this.state.todos}/>}/>
+                        <Route path="/projects" element={<Navigate replace to="/"/>}/>
+                        <Route exact path="*" element={<PageNotFound404/>}/>
+                    </Routes>
+                </Router>
+                <Footer/>
+            </div>
+        )
+    }
 }
 
-export default App; // Эта функция означает, что мы экспортируем наш компонент для использования в других модулях. Например, если мы откроем файл index.js, то увидим, то в нём используется App.js
+export default App;
