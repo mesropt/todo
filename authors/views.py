@@ -11,7 +11,7 @@ from .pagination import (
     BookLimitOffsetPagination,
 )
 from .serializers import ArticleModelSerializer, AuthorModelSerializer, BiographyModelSerializer, BookModelSerializer
-from .permissions import staffOnly
+from .permissions import ReadOnly
 
 # Это вьюшка, написанная через классы. Вьюшка ещё может быть написана через функцию, но это не комильфо.
 class AuthorModelViewSet(ModelViewSet):
