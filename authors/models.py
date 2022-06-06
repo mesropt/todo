@@ -24,6 +24,8 @@ class Book(models.Model):
     name = models.CharField(max_length=32)
     authors = models.ManyToManyField(Author)
 
+    def __str__(self):
+        return self.name
 
 class Article(models.Model):
     name = models.CharField(max_length=200)
