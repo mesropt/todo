@@ -23,16 +23,15 @@ router.register("todos", ToDoModelViewSet)
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    # ------------------------------
-    path("api-auth/", include("rest_framework.urls")),
-    path("api--token-auth/", vw.obtain_auth_token),
-    path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
-
-    # JWT token --------------------
+    path("api/auth/", include("rest_framework.urls")),
+    # Token
+    path("api/token-auth/", vw.obtain_auth_token),
+    # JWT token
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),    # ------------------------------
-    path(
-        "", include(router.urls)
-    ),  # Мы создали объект класса router и он является основным адресом нашего сайта, при этом админка и авторизация не изменились.
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
+    # Other
+    path("", include(router.urls)),  # Мы создали объект класса router и он
+    # является основным адресом нашего сайта, при этом админка и авторизация не изменились.
 ]
 
