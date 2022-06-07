@@ -1,3 +1,4 @@
+from rest_framework.permissions import AllowAny
 from rest_framework.renderers import BrowsableAPIRenderer, JSONRenderer
 from rest_framework.viewsets import ModelViewSet
 
@@ -10,7 +11,7 @@ from .pagination import (
     BookLimitOffsetPagination,
 )
 from .serializers import ArticleModelSerializer, AuthorModelSerializer, BiographyModelSerializer, BookModelSerializer
-
+from .permissions import ReadOnly
 
 # Это вьюшка, написанная через классы. Вьюшка ещё может быть написана через функцию, но это не комильфо.
 class AuthorModelViewSet(ModelViewSet):
@@ -22,6 +23,8 @@ class AuthorModelViewSet(ModelViewSet):
     serializer_class = AuthorModelSerializer
     pagination_class = AuthorLimitOffsetPagination
     filter_class = AuthorFilter
+    permission_classes = [AllowAny] # К AuthorModelViewSet будут иметь
+    # доступ все пользователи, в том числе анонимы.
 
 
 class BiographyModelViewSet(ModelViewSet):

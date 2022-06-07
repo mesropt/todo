@@ -1,4 +1,5 @@
 from rest_framework import mixins, viewsets
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.renderers import BrowsableAPIRenderer, JSONRenderer
 
 from .models import User
@@ -17,3 +18,4 @@ class UserCustomViewSet(
     serializer_class = UserModelSerializer
     renderer_classes = [JSONRenderer, BrowsableAPIRenderer]
     pagination_class = UserLimitOffsetPagination
+    permission_classes = [IsAuthenticatedOrReadOnly]
