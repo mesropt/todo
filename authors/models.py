@@ -27,6 +27,7 @@ class Book(models.Model):
     def __str__(self):
         return self.name
 
+
 class Article(models.Model):
     name = models.CharField(max_length=200)
     author = models.ForeignKey(Author, models.PROTECT)
