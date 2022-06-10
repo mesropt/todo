@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     "django_filters",
     "corsheaders",
     # Apps
-    "authors",
     "users",
     "todos",
 ]

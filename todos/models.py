@@ -22,8 +22,8 @@ class Project(models.Model):  # ПРОЕКТ, ДЛЯ КОТОРОГО ЗАПИС
 class ToDo(models.Model):  # ЗАМЕТКА
     uuid = models.UUIDField(default=uuid4)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    note_text = models.TextField("название проекта", blank=True)
+    note_text = models.TextField("текст заметки", blank=True)
     date_created = models.DateTimeField("дата создания", auto_now_add=True)
     date_updated = models.DateTimeField("дата обновления", auto_now=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    execution_status = models.BooleanField("статус исполнения", default=True, db_index=True)
+    execution_status = models.BooleanField("в процессе выполнения", default=True, db_index=True)
