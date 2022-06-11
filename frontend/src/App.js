@@ -11,6 +11,9 @@ import {PageNotFound404} from "./components/Base";
 import LoginForm from "./components/Auth";
 import Cookies from 'universal-cookie';
 
+const client = axios.create(
+    { baseURL: 'http://localhost:8000/' }
+)
 
 class App extends React.Component {
     constructor(props) {
@@ -22,7 +25,6 @@ class App extends React.Component {
             'token': ''
         }
     }
-
 
    set_token(token) {
        const cookies = new Cookies()
@@ -45,7 +47,7 @@ class App extends React.Component {
    }
 
    get_token(username, password) {
-       axios.post('http://127.0.0.1:8000/api/token-auth/', {username: username, password: password})
+       axios.post('http://127.0.0.1:8000/api-token-auth/', {username: username, password: password})
            .then(response => {
                this.set_token(response.data['token'])
            }).catch(error => alert('Неверный логин или пароль'))
@@ -65,20 +67,20 @@ class App extends React.Component {
    load_data() {
 
        const headers = this.get_headers()
-       axios.get('http://127.0.0.1:8000/projects', {headers})
+       client.get('projects/', {headers})
        .then(response => {
            const projects = response.data.results
                this.setState({'projects': projects})
        }).catch(error => console.log(error))
 
-       axios.get('http://127.0.0.1:8000/todos', {headers})
+       client.get('todos/', {headers})
        .then(response => {
            const todos = response.data.results
                this.setState({'todos': todos}
            )
        }).catch(error => console.log(error))
 
-       axios.get('http://127.0.0.1:8000/users', {headers})
+       client.get('users/', {headers})
        .then(response => {
            const users = response.data.results
                this.setState({'users': users})
@@ -100,9 +102,9 @@ class App extends React.Component {
                         </nav>
                         <div>
                             {this.is_authenticated() ? <button
-                                    onClick={() => this.logout()}>Logout</button> :
+                                    onClick={() => this.logout()}>Выйти</button> :
                                 <Link to='/login'>
-                                    <button>Login</button>
+                                    <button>Войти</button>
                                 </Link>}
                         </div>
                     </div>
