@@ -1,6 +1,6 @@
 from uuid import uuid4
 
-from django.contrib.auth import get_user_model
+from users.models import User
 from django.db import models
 
 # Самая важная часть модели - и единственная необходимая часть модели - это список полей базы данных, которые она определяет. Поля определяются атрибутами класса.
@@ -10,24 +10,20 @@ from django.db import models
 
 
 class Project(models.Model):  # ПРОЕКТ, ДЛЯ КОТОРОГО ЗАПИСАНЫ ЗАМЕТКИ
-    uid = models.UUIDField(primary_key=True, default=uuid4)
-    project_name = models.CharField(max_length=64, unique=True, verbose_name="название проекта")
-    repository_link = models.URLField(max_length=200, blank=True, verbose_name="ссылка на репозиторий")
-    users = models.ManyToManyField(
-        get_user_model(), verbose_name="участники проекта"
-    )  # Много пользователей - много проектов.
+    uuid = models.UUIDField(default=uuid4)
+    project_name = models.CharField("название проекта", max_length=128, unique=True)
+    repository_link = models.URLField("ссылка на репозиторий", null=True, blank=True)
+    users = models.ManyToManyField(User)  # Много пользователей - много проектов.
 
     def __str__(self):
         return self.project_name
 
 
 class ToDo(models.Model):  # ЗАМЕТКА
-    uid = models.UUIDField(primary_key=True, default=uuid4)
-    project = models.ForeignKey(Project, on_delete=models.CASCADE, verbose_name="проект")
-    note_text = models.TextField(blank=True, verbose_name="текст заметки")
-    date_created = models.DateTimeField(auto_now_add=True, verbose_name="дата создания")
-    date_updated = models.DateTimeField(auto_now=True, verbose_name="дата " "обновления")
-    author = models.ForeignKey(
-        get_user_model(), on_delete=models.CASCADE, related_name="todos", null=True, verbose_name="автор"
-    )
-    execution_status = models.BooleanField(default=True, verbose_name="статус исполнения", db_index=True)
+    uuid = models.UUIDField(default=uuid4)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    note_text = models.TextField("текст заметки", blank=True)
+    date_created = models.DateTimeField("дата создания", auto_now_add=True)
+    date_updated = models.DateTimeField("дата обновления", auto_now=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    execution_status = models.BooleanField("в процессе выполнения", default=True, db_index=True)
