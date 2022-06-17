@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "django_extensions",
     "django_filters",
     "corsheaders",
+    "drf_yasg",
     # Apps
     "users",
     "todos",
@@ -160,6 +161,12 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.TokenAuthentication",
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
+    "DEFAULT_VERSIONING_CLASS":
+        #"rest_framework.versioning.AcceptHeaderVersioning",
+        # "rest_framework.versioning.URLPathVersioning",
+        #"rest_framework.versioning.NamespaceVersioning",
+        #"rest_framework.versioning.HostNameVersioning",
+        "rest_framework.versioning.QueryParameterVersioning",
 }
 
 if DEBUG:
