@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     "django_filters",
     "corsheaders",
     "drf_yasg",
+    # GraphQL
+    "graphene_django",
     # Apps
     "users",
     "todos",
@@ -126,11 +128,15 @@ USE_L10N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
+# Static files (CSS, JavaScript, Images) (т.е. Константы)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = "/static/"
 
+# GraphQL
+GRAPHENE = {
+    "SCHEMA": "todo.schema.schema"
+}
 # Cross-Origin Resource Sharing (CORS)
 CORS_ALLOWED_ORIGINS = [  # Ниже перечисляем доступные нам порты. На 3000 живёт React.
     "http://localhost:3000",
