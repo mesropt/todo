@@ -9,6 +9,8 @@ import ToDoList from "./components/ToDos";
 import Footer from "./components/Footer";
 import {PageNotFound404} from "./components/Base";
 import LoginForm from "./components/Auth";
+import ToDoForm from "./components/ToDoForm";
+import ProjectForm from "./components/ProjectForm";
 import Cookies from 'universal-cookie';
 
 const client = axios.create(
@@ -64,6 +66,47 @@ class App extends React.Component {
        return headers
    }
 
+   deleteProject(url) {
+       const headers = this.get_headers()
+       axios.delete(`${url}`, {headers})
+           .then(response => {
+               this.setState({projects: this.state.filter((item) => item.url !== url)})
+           }).catch(error => console.log(error))
+   }
+
+   deleteToDo(url) {
+       const headers = this.get_headers()
+       axios.delete(`${url}`, {headers})
+           .then(response => {
+                this.setState({todos: this.state.todos})
+            }).catch(error => console.log(error))
+   }
+
+   createProject(projectName, repositoryLink, users) {
+        const headers = this.get_headers()
+        const data = {projectName: projectName, repositoryLink: repositoryLink, users: users}
+       console.log(data)
+        axios.post(`http://127.0.0.1:8000/api/projects/`, data, {headers: headers})
+            .then(response => {
+                let new_project = response.data
+                new_project.users = this.state.users.filter((item) => item.url === new_project.users)[0]
+                this.setState({projects: [...this.state.projects, new_project]})
+            }).catch(error => console.log(error))
+   }
+
+   createToDo(noteText, project, author) {
+        const headers = this.get_headers()
+        const data = {noteText: noteText, project: project, author: author}
+       console.log(data)
+        axios.post(`http://127.0.0.1:8000/api/todos/`, data, {headers: headers})
+            .then(response => {
+                let new_todo = response.data
+                new_todo.project = this.state.project.filter((item) => item.id === new_todo.project)[0]
+                new_todo.author = this.state.author.filter((item) => item.url === new_todo.author)[0]
+                this.setState({todos: [...this.state.todos, new_todo]})
+            }).catch(error => console.log(error))
+    }
+
    load_data() {
 
        const headers = this.get_headers()
@@ -110,9 +153,11 @@ class App extends React.Component {
                     </div>
                     <Routes>
                         <Route exact path="/" element={<ProjectList items={this.state.projects}/>}/>
-                        <Route exact path="/users" element={<UserList items={this.state.users}/>}/>
-                        <Route exact path="/todos" element={<ToDoList items={this.state.todos}/>}/>
+                        <Route exact path="/users" element={<UserList items={this.state.users} deleteUser={(id) => this.deleteUser(id)}/>}/>
+                        <Route exact path="/todos" element={<ToDoList items={this.state.todos} deleteToDo={(id) => this.deleteToDo(id)}/>}/>
+                        <Route path='/todos/create' element={<ToDoForm projects={this.state.projects} users={this.state.users} createToDo={(noteText, project, author) => this.createToDo (noteText, project, author)} />}  />
                         <Route path="/projects" element={<Navigate replace to="/"/>}/>
+                        <Route path='/projects/create' element={<ProjectForm all_users={this.state.users} createProject={(projectName, repositoryLink, users) => this.createProject(projectName, repositoryLink, users)}/>}/>
                         <Route path='/login' element={<LoginForm get_token={(username, password) => this.get_token(username, password)}/>}/>
                         <Route exact path="*" element={<PageNotFound404/>}/>
                     </Routes>

@@ -1,7 +1,8 @@
 import React from 'react'
+import {Link} from "react-router-dom";
 
 
-const ToDoItem = ({item}) => {
+const ToDoItem = ({item, deleteToDo}) => {
     return (
         <tr>
             <td>{item.project}</td>
@@ -10,12 +11,13 @@ const ToDoItem = ({item}) => {
             <td>{item.dateUpdated}</td>
             <td>{item.author}</td>
             <td>{item.executionStatus}</td>
+            <td><button onClick={() => deleteToDo(item.url)} type="button">Delete</button></td>
         </tr>
     )
 }
 
 
-const ToDoList = ({items}) => {
+const ToDoList = ({items, deleteTodo}) => {
     return (
         <div className={"container"}>
             <table className={"table table-bordered table-hover"}>
@@ -30,9 +32,10 @@ const ToDoList = ({items}) => {
                 </tr>
                 </thead>
                 <tbody>
-                {items.map((item, index) => <ToDoItem item={item} key={index}/>)}
+                {items.map((item, index) => <ToDoItem item={item} deleteToDo={deleteTodo} key={index}/>)}
                 </tbody>
             </table>
+            <Link to='/todos/create' className='btn btn-primary'>Create</Link>
         </div>
     )
 }
