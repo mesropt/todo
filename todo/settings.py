@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
+import os
 from datetime import timedelta
 from pathlib import Path
 
@@ -87,10 +88,23 @@ WSGI_APPLICATION = "todo.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+# Чувствительную информацию (коды, пароли) в исходном коде хранить нельзя. Её лучше получать через переменные окружения.
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "todo",
+        "USER": "dante",
+        "PASSWORD": "dante123456",
+        #"PASSWORD": os.getenv("DB_PASSWORD"),
+        "HOST": "db", # Важно назвать хост по имени нашего контейнера.
+        "PORT": "5432", # Это стандартный порт для PostgreSQL.
     }
 }
 
